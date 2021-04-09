@@ -17,7 +17,6 @@ h1{
     border: none;
     cursor: pointer;
     margin-left: 1em;
-    margin-right: 3em;
 }
 .drop-butt:hover, .drop-butt:focus {
     background-color: #4a8b83;
@@ -120,5 +119,8 @@ h1{
         height: 600px;
         border: none;
         border-left: 1px solid grey;
+    }
+    .drop-butt{
+        margin-right: 3em;
     }
   }
