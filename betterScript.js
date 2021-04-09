@@ -183,6 +183,7 @@ const loadKeywordQuiz1 = async () => {
     mainBox.style.display = "none";
     testBox.classList.remove('hidden');
     skipButt.removeEventListener('click', loadKeywordQuiz2);
+    skipButt.removeEventListener('click', loadOnQuiz3);
     skipButt.addEventListener('click', loadKeywordQuiz1);
     let answersArray = [];
     const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
@@ -208,7 +209,7 @@ const loadKeywordQuiz1 = async () => {
         shuffleArray(answersArray);
         console.log('answrsArray final is: ', answersArray);
         answersArray.forEach(answer => {
-            console.log("YO");
+            // console.log("YO");
             let newDiv = document.createElement('div');
             newDiv.textContent = answer;
             newDiv.addEventListener('click', handleClickStudy)
@@ -218,10 +219,11 @@ const loadKeywordQuiz1 = async () => {
 
     }
     loadfalseData();
-    console.log(trueAnswer)
+    // console.log(trueAnswer)
 }
 const loadKeywordQuiz2 = async () => {
     removeAllChildNodes(answersDiv);
+    let answersArray = [];
     messageBox.textContent = '';
     kunDiv.textContent = '';
     onDiv.textContent = '';
@@ -231,21 +233,13 @@ const loadKeywordQuiz2 = async () => {
     konoKanji = kanjiArray[randoNumber]
     mainBox.style.display = "none";
     testBox.classList.remove('hidden');
-    let answersArray = [];
     skipButt.removeEventListener('click', loadKeywordQuiz1);
+    skipButt.removeEventListener('click', loadOnQuiz3);
     skipButt.addEventListener('click', loadKeywordQuiz2);
     const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
     console.log("response is: ", data);
     mainKanji.textContent = data.heisig_en;
     trueAnswer = data.kanji;
-    // kun = data.kun_readings;
-    // on = data.on_readings;
-    // if (data.kun_readings.length > 0) {
-    //     kunDiv.append('(' + kun + ')')
-    // };
-    // if (data.on_readings.length > 0) {
-    //     onDiv.append('(' + on + ')')
-    // };
     console.log('answrsArray 1 is: ', answersArray);
     const loadfalseData = async () => {
         for (let i = 0; i < 9; i++) {
@@ -258,7 +252,7 @@ const loadKeywordQuiz2 = async () => {
         shuffleArray(answersArray);
         console.log('answrsArray final is: ', answersArray);
         answersArray.forEach(answer => {
-            console.log("YO");
+            // console.log("YO");
             let newDiv = document.createElement('div');
             newDiv.textContent = answer;
             newDiv.addEventListener('click', handleClickStudy2)
@@ -268,7 +262,176 @@ const loadKeywordQuiz2 = async () => {
 
     }
     loadfalseData();
-    console.log(trueAnswer)
+    // console.log(trueAnswer)
+}
+
+const loadOnQuiz3 = async () => {
+    removeAllChildNodes(answersDiv);
+    messageBox.textContent = '';
+    kunDiv.textContent = '';
+    onDiv.textContent = '';
+    testBox.style.backgroundColor = 'rgb(78, 78, 78)';
+    let randoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+    konoKanji = kanjiArray[randoNumber]
+    mainKanji.textContent = konoKanji;
+    mainBox.style.display = "none";
+    testBox.classList.remove('hidden');
+    skipButt.removeEventListener('click', loadKeywordQuiz1);
+    skipButt.removeEventListener('click', loadKeywordQuiz2);
+    skipButt.addEventListener('click', loadOnQuiz3);
+    let answersArray = [];
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    console.log("response is: ", data);
+    // let kun = data.kun_readings;
+    trueAnswer = data.on_readings;
+    console.log('answrsArray 1 is: ', answersArray);
+    const loadfalseData = async () => {
+        for (let i = 0; i < 9; i++) {
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+            let wrongAnswer = falseData.on_readings;
+            answersArray.push(wrongAnswer);
+            // console.log('FALSE', falseData);
+            // console.log('answrsArray repeat is: ', answersArray);
+        };
+        shuffleArray(answersArray);
+        console.log('answrsArray final is: ', answersArray);
+        answersArray.forEach(answer => {
+            // console.log("YO");
+            let newDiv = document.createElement('div');
+            newDiv.textContent = answer;
+            newDiv.addEventListener('click', handleClickStudy3)
+            newDiv.classList.add('answer');
+            answersDiv.append(newDiv);
+        })
+
+    }
+    loadfalseData();
+    // console.log(trueAnswer)
+}
+const loadOnQuiz4 = async () => {
+    removeAllChildNodes(answersDiv);
+    messageBox.textContent = '';
+    kunDiv.textContent = '';
+    onDiv.textContent = '';
+    testBox.style.backgroundColor = 'rgb(78, 78, 78)';
+    let randoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+    konoKanji = kanjiArray[randoNumber]
+    mainBox.style.display = "none";
+    testBox.classList.remove('hidden');
+    skipButt.removeEventListener('click', loadKeywordQuiz1);
+    skipButt.removeEventListener('click', loadKeywordQuiz2);
+    skipButt.addEventListener('click', loadOnQuiz3);
+    let answersArray = [];
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    console.log("response is: ", data);
+    mainKanji.textContent = data.on_readings;
+    // let kun = data.kun_readings;
+    trueAnswer = data.kanji;
+    console.log('answrsArray 1 is: ', answersArray);
+    const loadfalseData = async () => {
+        for (let i = 0; i < 9; i++) {
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+            let wrongAnswer = falseData.kanji;
+            answersArray.push(wrongAnswer);
+            // console.log('FALSE', falseData);
+            // console.log('answrsArray repeat is: ', answersArray);
+        };
+        shuffleArray(answersArray);
+        console.log('answrsArray final is: ', answersArray);
+        answersArray.forEach(answer => {
+            // console.log("YO");
+            let newDiv = document.createElement('div');
+            newDiv.textContent = answer;
+            newDiv.addEventListener('click', handleClickStudy4)
+            newDiv.classList.add('answer');
+            answersDiv.append(newDiv);
+        })
+    }
+    loadfalseData();
+}
+const loadKunQuiz5 = async () => {
+    removeAllChildNodes(answersDiv);
+    messageBox.textContent = '';
+    kunDiv.textContent = '';
+    onDiv.textContent = '';
+    testBox.style.backgroundColor = 'rgb(78, 78, 78)';
+    let randoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+    konoKanji = kanjiArray[randoNumber]
+    mainKanji.textContent = konoKanji;
+    mainBox.style.display = "none";
+    testBox.classList.remove('hidden');
+    skipButt.removeEventListener('click', loadKeywordQuiz1);
+    skipButt.removeEventListener('click', loadKeywordQuiz2);
+    skipButt.addEventListener('click', loadOnQuiz3);
+    let answersArray = [];
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    console.log("response is: ", data);
+    // let kun = data.kun_readings;
+    trueAnswer = data.kun_readings;
+    console.log('answrsArray 1 is: ', answersArray);
+    const loadfalseData = async () => {
+        for (let i = 0; i < 9; i++) {
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+            let wrongAnswer = falseData.kun_readings;
+            answersArray.push(wrongAnswer);
+            // console.log('FALSE', falseData);
+            // console.log('answrsArray repeat is: ', answersArray);
+        };
+        shuffleArray(answersArray);
+        console.log('answrsArray final is: ', answersArray);
+        answersArray.forEach(answer => {
+            // console.log("YO");
+            let newDiv = document.createElement('div');
+            newDiv.textContent = answer;
+            newDiv.addEventListener('click', handleClickStudy5)
+            newDiv.classList.add('answer');
+            answersDiv.append(newDiv);
+        })
+
+    }
+    loadfalseData();
+    // console.log(trueAnswer)
+}
+const loadKunQuiz6 = async () => {
+    removeAllChildNodes(answersDiv);
+    messageBox.textContent = '';
+    kunDiv.textContent = '';
+    onDiv.textContent = '';
+    testBox.style.backgroundColor = 'rgb(78, 78, 78)';
+    let randoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+    konoKanji = kanjiArray[randoNumber]
+    mainBox.style.display = "none";
+    testBox.classList.remove('hidden');
+    skipButt.removeEventListener('click', loadKeywordQuiz1);
+    skipButt.removeEventListener('click', loadKeywordQuiz2);
+    skipButt.addEventListener('click', loadOnQuiz3);
+    let answersArray = [];
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    console.log("response is: ", data);
+    mainKanji.textContent = data.kun_readings;
+    // let kun = data.kun_readings;
+    trueAnswer = data.kanji;
+    console.log('answrsArray 1 is: ', answersArray);
+    const loadfalseData = async () => {
+        for (let i = 0; i < 9; i++) {
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+            let wrongAnswer = falseData.kanji;
+            answersArray.push(wrongAnswer);
+            // console.log('FALSE', falseData);
+            // console.log('answrsArray repeat is: ', answersArray);
+        };
+        shuffleArray(answersArray);
+        console.log('answrsArray final is: ', answersArray);
+        answersArray.forEach(answer => {
+            // console.log("YO");
+            let newDiv = document.createElement('div');
+            newDiv.textContent = answer;
+            newDiv.addEventListener('click', handleClickStudy6)
+            newDiv.classList.add('answer');
+            answersDiv.append(newDiv);
+        })
+    }
+    loadfalseData();
 }
 
 function handleClickStudy() {
@@ -293,18 +456,49 @@ function handleClickStudy2() {
         messageBox.textContent = 'try again.'
     }
 }
-
-function loadOnQuiz3() {
-    console.log('pooped myself, better build me')
+function handleClickStudy3() {
+    selectedAnswer = this.textContent;
+    if (selectedAnswer === trueAnswer) {
+        console.log('FUCK YES');
+        testBox.style.backgroundColor = 'green';
+        messageBox.textContent = 'nice!'
+        loadOnQuiz3();
+    } else {
+        messageBox.textContent = 'try again.'
+    }
 }
-function loadOnQuiz4() {
-    console.log('pooped myself, better build me')
+function handleClickStudy4() {
+    selectedAnswer = this.textContent;
+    if (selectedAnswer === trueAnswer) {
+        console.log('FUCK YES');
+        testBox.style.backgroundColor = 'green';
+        messageBox.textContent = 'nice!'
+        loadOnQuiz4();
+    } else {
+        messageBox.textContent = 'try again.'
+    }
 }
-function loadKunQuiz5() {
-    console.log('pooped myself, better build me')
+function handleClickStudy5() {
+    selectedAnswer = this.textContent;
+    if (selectedAnswer === trueAnswer) {
+        console.log('FUCK YES');
+        testBox.style.backgroundColor = 'green';
+        messageBox.textContent = 'nice!'
+        loadKunQuiz5();
+    } else {
+        messageBox.textContent = 'try again.'
+    }
 }
-function loadKunQuiz6() {
-    console.log('pooped myself, better build me')
+function handleClickStudy6() {
+    selectedAnswer = this.textContent;
+    if (selectedAnswer === trueAnswer) {
+        console.log('FUCK YES');
+        testBox.style.backgroundColor = 'green';
+        messageBox.textContent = 'nice!'
+        loadKunQuiz6();
+    } else {
+        messageBox.textContent = 'try again.'
+    }
 }
 
 function shuffleArray(array) {
