@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ドクメント</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="landingContent">
+        <h1 class='title'>Kanji</h1>
+        <div class="level-dropdown">
+            <button onClick="dropdownFunction()" class="drop-butt">Study Level</button>
+            <div id='level-drop' class='dropdown-content'>
+                <button onClick='getAll()'>All</button>
+                <button onClick='get1()'>Grade 1</button>
+                <button onClick='get2()'>Grade 2</button>
+                <button onClick='get3()'>Grade 3</button>
+                <button onClick='get4()'>Grade 4</button>
+                <button onClick='get5()'>Grade 5</button>
+            </div>
+        </div>
+        <div>
+            <div class="list-box">
+                <p>
+                    Kanji -> Keyword
+                </p>
+                <div class='fillbox' id="fillbox1"></div>
+            </div>
+            <div class="list-box">
+                <p>
+                    Keyword -> Kanji
+                </p>
+                <div class='fillbox' id="fillbox2"></div>
+            </div>
+            <div class="list-box">
+                <p>
+                    Kanji -> On
+                </p>
+                <div class='fillbox' id="fillbox3"></div>
+            </div>
+            <div class="list-box">
+                <p>
+                    On -> Kanji
+                </p>
+                <div class='fillbox' id="fillbox4"></div>
+            </div>
+            <div class="list-box">
+                <p>
+                    Kanji -> Kun
+                </p>
+                <div class='fillbox' id="fillbox5"></div>
+            </div>
+            <div class="list-box">
+                <p>
+                    Kun -> Kanji
+                </p>
+                <div class='fillbox' id="fillbox6"></div>
+            </div>
+        </div>
+    </div>
+    <div id='test-box' class="hidden">
+        <div id="kanji-display">
+            <h1 class="main"></h1>
+            <p class='kun'></p>
+            <p class='on'></p>
+        </div>
+        <div class='answers'></div>
+        <div id='float-message'></div>
+        <button class="drop-butt" onClick="changeDisplay()">Go Back</button>
+        <button class="drop-butt skip" onClick="loadKeywordQuiz1()">Skip</button>
+    </div>
+    <script src="betterScript.js"></script>
+</body>
+
+</html>
