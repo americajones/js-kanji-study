@@ -165,6 +165,7 @@ const kunDiv = document.querySelector('.kun');
 const onDiv = document.querySelector('.on');
 const kanjiDisplay = document.querySelector('#kanji-display');
 const messageBox = document.querySelector('#float-message');
+const skipButt = document.querySelector('.skip');
 let konoKanji
 let trueAnswer
 let selectedAnswer
@@ -181,6 +182,8 @@ const loadKeywordQuiz1 = async () => {
     mainKanji.textContent = konoKanji;
     mainBox.style.display = "none";
     testBox.classList.remove('hidden');
+    skipButt.removeEventListener('click', loadKeywordQuiz2);
+    skipButt.addEventListener('click', loadKeywordQuiz1);
     let answersArray = [];
     const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
     console.log("response is: ", data);
@@ -229,6 +232,8 @@ const loadKeywordQuiz2 = async () => {
     mainBox.style.display = "none";
     testBox.classList.remove('hidden');
     let answersArray = [];
+    skipButt.removeEventListener('click', loadKeywordQuiz1);
+    skipButt.addEventListener('click', loadKeywordQuiz2);
     const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
     console.log("response is: ", data);
     mainKanji.textContent = data.heisig_en;

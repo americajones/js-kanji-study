@@ -17,6 +17,7 @@ h1{
     border: none;
     cursor: pointer;
     margin-left: 1em;
+    margin-right: 1em;
 }
 .drop-butt:hover, .drop-butt:focus {
     background-color: #4a8b83;
