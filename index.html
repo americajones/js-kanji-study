@@ -13,7 +13,7 @@
     <div id="landingContent">
         <h1 class='title'>Kanji</h1>
         <div class="level-dropdown">
-            <button onClick="dropdownFunction()" class="drop-butt">Study Level</button>
+            <button onClick="dropdownFunction()" class="drop-butt top">Study Level <div class="arrow">></div></button>
             <div id='level-drop' class='dropdown-content'>
                 <button onClick='getAll()'>All</button>
                 <button onClick='get1()'>Grade 1</button>
@@ -38,25 +38,25 @@
             </div>
             <div class="list-box">
                 <p>
-                    Kanji -> On
+                    Kanji -> Onyomi
                 </p>
                 <div class='fillbox' id="fillbox3"></div>
             </div>
             <div class="list-box">
                 <p>
-                    On -> Kanji
+                    Onyomi -> Kanji
                 </p>
                 <div class='fillbox' id="fillbox4"></div>
             </div>
             <div class="list-box">
                 <p>
-                    Kanji -> Kun
+                    Kanji -> Kunyomi
                 </p>
                 <div class='fillbox' id="fillbox5"></div>
             </div>
             <div class="list-box">
                 <p>
-                    Kun -> Kanji
+                    Kunyomi -> Kanji
                 </p>
                 <div class='fillbox' id="fillbox6"></div>
             </div>
@@ -69,8 +69,8 @@
             <p class='on'></p>
         </div>
         <div class='answers'></div>
-        <div id='float-message'></div>
         <button class="drop-butt" onClick="changeDisplay()">Go Back</button>
+        <div id='float-message'></div>
         <button class="drop-butt skip">Skip</button>
     </div>
     <script src="betterScript.js"></script>

@@ -105,8 +105,6 @@ function populateMainPage() {
     fillbox5.append(newButt5);
     fillbox6.append(newButt6);
 }
-//on load getAll()
-window.onload = getAll;
 
 const get1 = async () => {
     const data = await fetch('https://kanjiapi.dev/v1/kanji/grade-1').then(res => res.json());
@@ -118,6 +116,9 @@ const get1 = async () => {
     number = data.length;
     populateMainPage();
 }
+
+window.onload = get1;
+
 const get2 = async () => {
     const data = await fetch('https://kanjiapi.dev/v1/kanji/grade-2').then(res => res.json());
     console.log("response is: ", data);
@@ -170,6 +171,7 @@ let konoKanji
 let trueAnswer
 let selectedAnswer
 let answersArray = [];
+let randoNumber = 69;
 
 const loadKeywordQuiz1 = async () => {
     removeAllChildNodes(answersDiv);
@@ -177,16 +179,22 @@ const loadKeywordQuiz1 = async () => {
     kunDiv.textContent = '';
     onDiv.textContent = '';
     testBox.style.backgroundColor = 'rgb(78, 78, 78)';
-    let randoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+    randoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
     konoKanji = kanjiArray[randoNumber]
     mainKanji.textContent = konoKanji;
     mainBox.style.display = "none";
     testBox.classList.remove('hidden');
     skipButt.removeEventListener('click', loadKeywordQuiz2);
     skipButt.removeEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadOnQuiz4);
+    skipButt.removeEventListener('click', loadKunQuiz5);
+    skipButt.removeEventListener('click', loadKunQuiz6);
     skipButt.addEventListener('click', loadKeywordQuiz1);
     let answersArray = [];
-    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json()).catch((error) => {
+        console.error('API Error:', error);
+        loadKeywordQuiz1();
+    });
     console.log("response is: ", data);
     let kun = data.kun_readings;
     let on = data.on_readings;
@@ -200,7 +208,10 @@ const loadKeywordQuiz1 = async () => {
     console.log('answrsArray 1 is: ', answersArray);
     const loadfalseData = async () => {
         for (let i = 0; i < 9; i++) {
-            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json()).catch((error) => {
+                console.error('API Error:', error);
+                loadKeywordQuiz1();
+            });;
             let wrongAnswer = falseData.heisig_en;
             answersArray.push(wrongAnswer);
             // console.log('FALSE', falseData);
@@ -228,22 +239,31 @@ const loadKeywordQuiz2 = async () => {
     kunDiv.textContent = '';
     onDiv.textContent = '';
     testBox.style.backgroundColor = 'rgb(78, 78, 78)';
-    let randoNumber = Math.floor(Math.random() * kanjiArray.length);
+    randoNumber = Math.floor(Math.random() * kanjiArray.length);
     console.log('randoNumber is: ', randoNumber)
     konoKanji = kanjiArray[randoNumber]
     mainBox.style.display = "none";
     testBox.classList.remove('hidden');
     skipButt.removeEventListener('click', loadKeywordQuiz1);
     skipButt.removeEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadOnQuiz4);
+    skipButt.removeEventListener('click', loadKunQuiz5);
+    skipButt.removeEventListener('click', loadKunQuiz6);
     skipButt.addEventListener('click', loadKeywordQuiz2);
-    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json()).catch((error) => {
+        console.error('API Error:', error);
+        loadKeywordQuiz2();
+    });
     console.log("response is: ", data);
     mainKanji.textContent = data.heisig_en;
     trueAnswer = data.kanji;
     console.log('answrsArray 1 is: ', answersArray);
     const loadfalseData = async () => {
         for (let i = 0; i < 9; i++) {
-            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber--]).then(res => res.json());
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber--]).then(res => res.json()).catch((error) => {
+                console.error('API Error:', error);
+                loadKeywordQuiz2();
+            });;
             let wrongAnswer = falseData.kanji;
             answersArray.push(wrongAnswer);
             // console.log('FALSE', falseData);
@@ -271,23 +291,34 @@ const loadOnQuiz3 = async () => {
     kunDiv.textContent = '';
     onDiv.textContent = '';
     testBox.style.backgroundColor = 'rgb(78, 78, 78)';
-    let randoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+    randoNumber = Math.floor(Math.random() * kanjiArray.length - 10);
     konoKanji = kanjiArray[randoNumber]
-    mainKanji.textContent = konoKanji;
+    if (konoKanji)
+        mainKanji.textContent = konoKanji;
     mainBox.style.display = "none";
     testBox.classList.remove('hidden');
     skipButt.removeEventListener('click', loadKeywordQuiz1);
     skipButt.removeEventListener('click', loadKeywordQuiz2);
+    skipButt.removeEventListener('click', loadOnQuiz4);
+    skipButt.removeEventListener('click', loadKunQuiz5);
+    skipButt.removeEventListener('click', loadKunQuiz6);
     skipButt.addEventListener('click', loadOnQuiz3);
     let answersArray = [];
-    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json()).catch((error) => {
+        console.error('API Error:', error);
+        loadOnQuiz3();
+    });
     console.log("response is: ", data);
-    // let kun = data.kun_readings;
     trueAnswer = data.on_readings;
+    answersArray.push(trueAnswer);
     console.log('answrsArray 1 is: ', answersArray);
     const loadfalseData = async () => {
-        for (let i = 0; i < 9; i++) {
-            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+        for (let i = 0; i < 8; i++) {
+            let nuRandoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[nuRandoNumber]).then(res => res.json()).catch((error) => {
+                console.error('API Error:', error);
+                loadOnQuiz3();
+            });
             let wrongAnswer = falseData.on_readings;
             answersArray.push(wrongAnswer);
             // console.log('FALSE', falseData);
@@ -320,17 +351,28 @@ const loadOnQuiz4 = async () => {
     testBox.classList.remove('hidden');
     skipButt.removeEventListener('click', loadKeywordQuiz1);
     skipButt.removeEventListener('click', loadKeywordQuiz2);
-    skipButt.addEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadKunQuiz5);
+    skipButt.removeEventListener('click', loadKunQuiz6);
+    skipButt.addEventListener('click', loadOnQuiz4);
     let answersArray = [];
-    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json()).catch((error) => {
+        console.error('API Error:', error);
+        loadOnQuiz4();
+    });
     console.log("response is: ", data);
-    mainKanji.textContent = data.on_readings;
+    mainKanji.textContent = data.on_readings.join(' | ');
     // let kun = data.kun_readings;
     trueAnswer = data.kanji;
+    answersArray.push(trueAnswer);
     console.log('answrsArray 1 is: ', answersArray);
     const loadfalseData = async () => {
-        for (let i = 0; i < 9; i++) {
-            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+        for (let i = 0; i < 8; i++) {
+            let nuRandoNumber = Math.floor(Math.random() * kanjiArray.length - 18);
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[nuRandoNumber]).then(res => res.json()).catch((error) => {
+                console.error('API Error:', error);
+                loadOnQuiz4();
+            });
             let wrongAnswer = falseData.kanji;
             answersArray.push(wrongAnswer);
             // console.log('FALSE', falseData);
@@ -362,16 +404,25 @@ const loadKunQuiz5 = async () => {
     testBox.classList.remove('hidden');
     skipButt.removeEventListener('click', loadKeywordQuiz1);
     skipButt.removeEventListener('click', loadKeywordQuiz2);
-    skipButt.addEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadOnQuiz4);
+    skipButt.removeEventListener('click', loadKunQuiz6);
+    skipButt.addEventListener('click', loadKunQuiz5);
     let answersArray = [];
-    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json()).catch((error) => {
+        console.error('API Error:', error);
+        loadKunQuiz5();
+    });
     console.log("response is: ", data);
     // let kun = data.kun_readings;
     trueAnswer = data.kun_readings;
     console.log('answrsArray 1 is: ', answersArray);
     const loadfalseData = async () => {
         for (let i = 0; i < 9; i++) {
-            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json()).catch((error) => {
+                console.error('API Error:', error);
+                loadKunQuiz5();
+            });
             let wrongAnswer = falseData.kun_readings;
             answersArray.push(wrongAnswer);
             // console.log('FALSE', falseData);
@@ -404,17 +455,26 @@ const loadKunQuiz6 = async () => {
     testBox.classList.remove('hidden');
     skipButt.removeEventListener('click', loadKeywordQuiz1);
     skipButt.removeEventListener('click', loadKeywordQuiz2);
-    skipButt.addEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadOnQuiz3);
+    skipButt.removeEventListener('click', loadOnQuiz4);
+    skipButt.removeEventListener('click', loadKunQuiz5);
+    skipButt.addEventListener('click', loadKunQuiz6);
     let answersArray = [];
-    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json());
+    const data = await fetch('https://kanjiapi.dev/v1/kanji/' + konoKanji).then(res => res.json()).catch((error) => {
+        console.error('API Error:', error);
+        loadKunQuiz6();
+    });
     console.log("response is: ", data);
-    mainKanji.textContent = data.kun_readings;
+    mainKanji.textContent = data.kun_readings.join(' | ');
     // let kun = data.kun_readings;
     trueAnswer = data.kanji;
     console.log('answrsArray 1 is: ', answersArray);
     const loadfalseData = async () => {
         for (let i = 0; i < 9; i++) {
-            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json());
+            const falseData = await fetch('https://kanjiapi.dev/v1/kanji/' + kanjiArray[randoNumber++]).then(res => res.json()).catch((error) => {
+                console.error('API Error:', error);
+                loadKunQuiz6();
+            });;
             let wrongAnswer = falseData.kanji;
             answersArray.push(wrongAnswer);
             // console.log('FALSE', falseData);
@@ -438,9 +498,10 @@ function handleClickStudy() {
     selectedAnswer = this.textContent;
     if (selectedAnswer === trueAnswer) {
         console.log('FUCK YES');
-        testBox.style.backgroundColor = 'green';
-        messageBox.textContent = 'nice!'
-        loadKeywordQuiz1();
+        messageBox.textContent = '. * nice! * .'
+        setTimeout(() => {
+            loadKeywordQuiz1();
+        }, 1000);
     } else {
         messageBox.textContent = 'try again.'
     }
@@ -449,20 +510,22 @@ function handleClickStudy2() {
     selectedAnswer = this.textContent;
     if (selectedAnswer === trueAnswer) {
         console.log('FUCK YES');
-        testBox.style.backgroundColor = 'green';
-        messageBox.textContent = 'nice!'
-        loadKeywordQuiz2();
+        messageBox.textContent = '. * nice! * .'
+        setTimeout(() => {
+            loadKeywordQuiz2();
+        }, 1000);
     } else {
         messageBox.textContent = 'try again.'
     }
 }
 function handleClickStudy3() {
     selectedAnswer = this.textContent;
-    if (selectedAnswer === trueAnswer) {
+    if (String(selectedAnswer) === String(trueAnswer)) {
         console.log('FUCK YES');
-        testBox.style.backgroundColor = 'green';
-        messageBox.textContent = 'nice!'
-        loadOnQuiz3();
+        messageBox.textContent = '. * nice! * .'
+        setTimeout(() => {
+            loadOnQuiz3();
+        }, 1000);
     } else {
         messageBox.textContent = 'try again.'
     }
@@ -471,9 +534,10 @@ function handleClickStudy4() {
     selectedAnswer = this.textContent;
     if (selectedAnswer === trueAnswer) {
         console.log('FUCK YES');
-        testBox.style.backgroundColor = 'green';
-        messageBox.textContent = 'nice!'
-        loadOnQuiz4();
+        messageBox.textContent = '. * nice! * .'
+        setTimeout(() => {
+            loadOnQuiz4();
+        }, 1000);
     } else {
         messageBox.textContent = 'try again.'
     }
@@ -482,9 +546,10 @@ function handleClickStudy5() {
     selectedAnswer = this.textContent;
     if (selectedAnswer === trueAnswer) {
         console.log('FUCK YES');
-        testBox.style.backgroundColor = 'green';
-        messageBox.textContent = 'nice!'
-        loadKunQuiz5();
+        messageBox.textContent = '. * nice! * .'
+        setTimeout(() => {
+            loadKunQuiz5();
+        }, 1000);
     } else {
         messageBox.textContent = 'try again.'
     }
@@ -493,9 +558,11 @@ function handleClickStudy6() {
     selectedAnswer = this.textContent;
     if (selectedAnswer === trueAnswer) {
         console.log('FUCK YES');
-        testBox.style.backgroundColor = 'green';
-        messageBox.textContent = 'nice!'
-        loadKunQuiz6();
+        messageBox.textContent = '. * nice! * .'
+        setTimeout(() => {
+
+            loadKunQuiz6();
+        }, 1000);
     } else {
         messageBox.textContent = 'try again.'
     }
